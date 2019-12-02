@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ead518ea4f3749ce871ab6217d66e058" Name="Diagram1">
+        <EntityTypeShape EntityType="AssetMVCModel.Asset_def" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetMVCModel.Asset_master" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetMVCModel.Asset_type" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetMVCModel.Login_tbl" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetMVCModel.Purchase_order" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetMVCModel.status_tbl" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetMVCModel.User_registration" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetMVCModel.Vendor" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="AssetMVCModel.FK__Asset_def__ad_ty__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="AssetMVCModel.FK__Asset_mas__am_ad__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="AssetMVCModel.FK__Purchase___pd_ad__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="AssetMVCModel.FK__Asset_mas__am_at__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="AssetMVCModel.FK__Asset_mas__am_ma__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="AssetMVCModel.FK__Purchase___pd_ty__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="AssetMVCModel.FK__Vendor__vd_atype__2E1BDC42" ManuallyRouted="false" />
+        <AssociationConnector Association="AssetMVCModel.FK__User_regis__l_id__267ABA7A" ManuallyRouted="false" />
+        <AssociationConnector Association="AssetMVCModel.FK__Purchase___pd_ve__3C69FB99" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

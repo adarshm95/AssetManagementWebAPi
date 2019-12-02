@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AssetMVCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Asset_def">
+          <Key>
+            <PropertyRef Name="ad_id" />
+          </Key>
+          <Property Name="ad_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ad_name" Type="varchar" MaxLength="50" />
+          <Property Name="ad_type_id" Type="int" />
+          <Property Name="ad_class" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Asset_master">
+          <Key>
+            <PropertyRef Name="am_id" />
+          </Key>
+          <Property Name="am_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="am_atype_id" Type="int" />
+          <Property Name="am_make_id" Type="int" />
+          <Property Name="am_ad_id" Type="int" />
+          <Property Name="am_model" Type="varchar" MaxLength="40" />
+          <Property Name="am_snumber" Type="varchar" MaxLength="20" />
+          <Property Name="am_myyear" Type="varchar" MaxLength="10" />
+          <Property Name="am_pdate" Type="date" />
+          <Property Name="am_warranty" Type="varchar" MaxLength="1" />
+          <Property Name="am_from" Type="date" />
+          <Property Name="am_to" Type="date" />
+        </EntityType>
+        <EntityType Name="Asset_type">
+          <Key>
+            <PropertyRef Name="at_id" />
+          </Key>
+          <Property Name="at_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="at_name" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Login_tbl">
+          <Key>
+            <PropertyRef Name="l_id" />
+          </Key>
+          <Property Name="l_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="u_name" Type="varchar" MaxLength="50" />
+          <Property Name="p_word" Type="varchar" MaxLength="50" />
+          <Property Name="u_type" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Purchase_order">
+          <Key>
+            <PropertyRef Name="pd_id" />
+          </Key>
+          <Property Name="pd_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pd_order_no" Type="varchar" MaxLength="10" />
+          <Property Name="pd_ad_id" Type="int" />
+          <Property Name="pd_type_id" Type="int" />
+          <Property Name="pd_qty" Type="decimal" Precision="5" Scale="0" />
+          <Property Name="pd_vendor_id" Type="int" />
+          <Property Name="pd_date" Type="date" />
+          <Property Name="pd_ddate" Type="date" />
+          <Property Name="pd_status" Type="varchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="status_tbl">
+          <Key>
+            <PropertyRef Name="st_id" />
+          </Key>
+          <Property Name="st_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="st_name" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="User_registration">
+          <Key>
+            <PropertyRef Name="u_id" />
+          </Key>
+          <Property Name="u_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="f_name" Type="varchar" MaxLength="50" />
+          <Property Name="l_name" Type="varchar" MaxLength="50" />
+          <Property Name="age" Type="int" />
+          <Property Name="gender" Type="varchar" MaxLength="20" />
+          <Property Name="address" Type="varchar" MaxLength="100" />
+          <Property Name="phno" Type="decimal" Precision="12" Scale="0" />
+          <Property Name="l_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="vd_id" />
+          </Key>
+          <Property Name="vd_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vd_name" Type="varchar" MaxLength="50" />
+          <Property Name="vd_type" Type="varchar" MaxLength="50" />
+          <Property Name="vd_atype_id" Type="int" />
+          <Property Name="vd_from" Type="date" />
+          <Property Name="vd_to" Type="date" />
+          <Property Name="vd_addr" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__Asset_def__ad_ty__2B3F6F97">
+          <End Role="Asset_type" Type="Self.Asset_type" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset_def" Type="Self.Asset_def" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_type">
+              <PropertyRef Name="at_id" />
+            </Principal>
+            <Dependent Role="Asset_def">
+              <PropertyRef Name="ad_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asset_mas__am_ad__412EB0B6">
+          <End Role="Asset_def" Type="Self.Asset_def" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset_master" Type="Self.Asset_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_def">
+              <PropertyRef Name="ad_id" />
+            </Principal>
+            <Dependent Role="Asset_master">
+              <PropertyRef Name="am_ad_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asset_mas__am_at__3F466844">
+          <End Role="Asset_type" Type="Self.Asset_type" Multiplicity="0..1" />
+          <End Role="Asset_master" Type="Self.Asset_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_type">
+              <PropertyRef Name="at_id" />
+            </Principal>
+            <Dependent Role="Asset_master">
+              <PropertyRef Name="am_atype_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asset_mas__am_ma__403A8C7D">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="Asset_master" Type="Self.Asset_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="vd_id" />
+            </Principal>
+            <Dependent Role="Asset_master">
+              <PropertyRef Name="am_make_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchase___pd_ad__3A81B327">
+          <End Role="Asset_def" Type="Self.Asset_def" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Purchase_order" Type="Self.Purchase_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_def">
+              <PropertyRef Name="ad_id" />
+            </Principal>
+            <Dependent Role="Purchase_order">
+              <PropertyRef Name="pd_ad_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchase___pd_ty__3B75D760">
+          <End Role="Asset_type" Type="Self.Asset_type" Multiplicity="0..1" />
+          <End Role="Purchase_order" Type="Self.Purchase_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_type">
+              <PropertyRef Name="at_id" />
+            </Principal>
+            <Dependent Role="Purchase_order">
+              <PropertyRef Name="pd_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchase___pd_ve__3C69FB99">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="Purchase_order" Type="Self.Purchase_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="vd_id" />
+            </Principal>
+            <Dependent Role="Purchase_order">
+              <PropertyRef Name="pd_vendor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User_regis__l_id__267ABA7A">
+          <End Role="Login_tbl" Type="Self.Login_tbl" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="User_registration" Type="Self.User_registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login_tbl">
+              <PropertyRef Name="l_id" />
+            </Principal>
+            <Dependent Role="User_registration">
+              <PropertyRef Name="l_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vendor__vd_atype__2E1BDC42">
+          <End Role="Asset_type" Type="Self.Asset_type" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_type">
+              <PropertyRef Name="at_id" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="vd_atype_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AssetMVCModelStoreContainer">
+          <EntitySet Name="Asset_def" EntityType="Self.Asset_def" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asset_master" EntityType="Self.Asset_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asset_type" EntityType="Self.Asset_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login_tbl" EntityType="Self.Login_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Purchase_order" EntityType="Self.Purchase_order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="status_tbl" EntityType="Self.status_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_registration" EntityType="Self.User_registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Asset_def__ad_ty__2B3F6F97" Association="Self.FK__Asset_def__ad_ty__2B3F6F97">
+            <End Role="Asset_type" EntitySet="Asset_type" />
+            <End Role="Asset_def" EntitySet="Asset_def" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asset_mas__am_ad__412EB0B6" Association="Self.FK__Asset_mas__am_ad__412EB0B6">
+            <End Role="Asset_def" EntitySet="Asset_def" />
+            <End Role="Asset_master" EntitySet="Asset_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asset_mas__am_at__3F466844" Association="Self.FK__Asset_mas__am_at__3F466844">
+            <End Role="Asset_type" EntitySet="Asset_type" />
+            <End Role="Asset_master" EntitySet="Asset_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asset_mas__am_ma__403A8C7D" Association="Self.FK__Asset_mas__am_ma__403A8C7D">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Asset_master" EntitySet="Asset_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchase___pd_ad__3A81B327" Association="Self.FK__Purchase___pd_ad__3A81B327">
+            <End Role="Asset_def" EntitySet="Asset_def" />
+            <End Role="Purchase_order" EntitySet="Purchase_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchase___pd_ty__3B75D760" Association="Self.FK__Purchase___pd_ty__3B75D760">
+            <End Role="Asset_type" EntitySet="Asset_type" />
+            <End Role="Purchase_order" EntitySet="Purchase_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchase___pd_ve__3C69FB99" Association="Self.FK__Purchase___pd_ve__3C69FB99">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Purchase_order" EntitySet="Purchase_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User_regis__l_id__267ABA7A" Association="Self.FK__User_regis__l_id__267ABA7A">
+            <End Role="Login_tbl" EntitySet="Login_tbl" />
+            <End Role="User_registration" EntitySet="User_registration" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vendor__vd_atype__2E1BDC42" Association="Self.FK__Vendor__vd_atype__2E1BDC42">
+            <End Role="Asset_type" EntitySet="Asset_type" />
+            <End Role="Vendor" EntitySet="Vendor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AssetMVCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Asset_def">
+          <Key>
+            <PropertyRef Name="ad_id" />
+          </Key>
+          <Property Name="ad_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ad_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ad_type_id" Type="Int32" />
+          <Property Name="ad_class" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Asset_type" Relationship="Self.FK__Asset_def__ad_ty__2B3F6F97" FromRole="Asset_def" ToRole="Asset_type" />
+          <NavigationProperty Name="Asset_master" Relationship="Self.FK__Asset_mas__am_ad__412EB0B6" FromRole="Asset_def" ToRole="Asset_master" />
+          <NavigationProperty Name="Purchase_order" Relationship="Self.FK__Purchase___pd_ad__3A81B327" FromRole="Asset_def" ToRole="Purchase_order" />
+        </EntityType>
+        <EntityType Name="Asset_master">
+          <Key>
+            <PropertyRef Name="am_id" />
+          </Key>
+          <Property Name="am_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="am_atype_id" Type="Int32" />
+          <Property Name="am_make_id" Type="Int32" />
+          <Property Name="am_ad_id" Type="Int32" />
+          <Property Name="am_model" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="am_snumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="am_myyear" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="am_pdate" Type="DateTime" Precision="0" />
+          <Property Name="am_warranty" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="am_from" Type="DateTime" Precision="0" />
+          <Property Name="am_to" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Asset_def" Relationship="Self.FK__Asset_mas__am_ad__412EB0B6" FromRole="Asset_master" ToRole="Asset_def" />
+          <NavigationProperty Name="Asset_type" Relationship="Self.FK__Asset_mas__am_at__3F466844" FromRole="Asset_master" ToRole="Asset_type" />
+          <NavigationProperty Name="Vendor" Relationship="Self.FK__Asset_mas__am_ma__403A8C7D" FromRole="Asset_master" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="Asset_type">
+          <Key>
+            <PropertyRef Name="at_id" />
+          </Key>
+          <Property Name="at_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="at_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Asset_def" Relationship="Self.FK__Asset_def__ad_ty__2B3F6F97" FromRole="Asset_type" ToRole="Asset_def" />
+          <NavigationProperty Name="Asset_master" Relationship="Self.FK__Asset_mas__am_at__3F466844" FromRole="Asset_type" ToRole="Asset_master" />
+          <NavigationProperty Name="Purchase_order" Relationship="Self.FK__Purchase___pd_ty__3B75D760" FromRole="Asset_type" ToRole="Purchase_order" />
+          <NavigationProperty Name="Vendors" Relationship="Self.FK__Vendor__vd_atype__2E1BDC42" FromRole="Asset_type" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="Login_tbl">
+          <Key>
+            <PropertyRef Name="l_id" />
+          </Key>
+          <Property Name="l_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="u_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="p_word" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User_registration" Relationship="Self.FK__User_regis__l_id__267ABA7A" FromRole="Login_tbl" ToRole="User_registration" />
+        </EntityType>
+        <EntityType Name="Purchase_order">
+          <Key>
+            <PropertyRef Name="pd_id" />
+          </Key>
+          <Property Name="pd_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pd_order_no" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="pd_ad_id" Type="Int32" />
+          <Property Name="pd_type_id" Type="Int32" />
+          <Property Name="pd_qty" Type="Decimal" Precision="5" Scale="0" />
+          <Property Name="pd_vendor_id" Type="Int32" />
+          <Property Name="pd_date" Type="DateTime" Precision="0" />
+          <Property Name="pd_ddate" Type="DateTime" Precision="0" />
+          <Property Name="pd_status" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Asset_def" Relationship="Self.FK__Purchase___pd_ad__3A81B327" FromRole="Purchase_order" ToRole="Asset_def" />
+          <NavigationProperty Name="Asset_type" Relationship="Self.FK__Purchase___pd_ty__3B75D760" FromRole="Purchase_order" ToRole="Asset_type" />
+          <NavigationProperty Name="Vendor" Relationship="Self.FK__Purchase___pd_ve__3C69FB99" FromRole="Purchase_order" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="status_tbl">
+          <Key>
+            <PropertyRef Name="st_id" />
+          </Key>
+          <Property Name="st_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="st_name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="User_registration">
+          <Key>
+            <PropertyRef Name="u_id" />
+          </Key>
+          <Property Name="u_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="f_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="l_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="phno" Type="Decimal" Precision="12" Scale="0" />
+          <Property Name="l_id" Type="Int32" />
+          <NavigationProperty Name="Login_tbl" Relationship="Self.FK__User_regis__l_id__267ABA7A" FromRole="User_registration" ToRole="Login_tbl" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="vd_id" />
+          </Key>
+          <Property Name="vd_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vd_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="vd_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="vd_atype_id" Type="Int32" />
+          <Property Name="vd_from" Type="DateTime" Precision="0" />
+          <Property Name="vd_to" Type="DateTime" Precision="0" />
+          <Property Name="vd_addr" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Asset_master" Relationship="Self.FK__Asset_mas__am_ma__403A8C7D" FromRole="Vendor" ToRole="Asset_master" />
+          <NavigationProperty Name="Asset_type" Relationship="Self.FK__Vendor__vd_atype__2E1BDC42" FromRole="Vendor" ToRole="Asset_type" />
+          <NavigationProperty Name="Purchase_order" Relationship="Self.FK__Purchase___pd_ve__3C69FB99" FromRole="Vendor" ToRole="Purchase_order" />
+        </EntityType>
+        <Association Name="FK__Asset_def__ad_ty__2B3F6F97">
+          <End Role="Asset_type" Type="Self.Asset_type" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset_def" Type="Self.Asset_def" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_type">
+              <PropertyRef Name="at_id" />
+            </Principal>
+            <Dependent Role="Asset_def">
+              <PropertyRef Name="ad_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asset_mas__am_ad__412EB0B6">
+          <End Role="Asset_def" Type="Self.Asset_def" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset_master" Type="Self.Asset_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_def">
+              <PropertyRef Name="ad_id" />
+            </Principal>
+            <Dependent Role="Asset_master">
+              <PropertyRef Name="am_ad_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchase___pd_ad__3A81B327">
+          <End Role="Asset_def" Type="Self.Asset_def" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Purchase_order" Type="Self.Purchase_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_def">
+              <PropertyRef Name="ad_id" />
+            </Principal>
+            <Dependent Role="Purchase_order">
+              <PropertyRef Name="pd_ad_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asset_mas__am_at__3F466844">
+          <End Role="Asset_type" Type="Self.Asset_type" Multiplicity="0..1" />
+          <End Role="Asset_master" Type="Self.Asset_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_type">
+              <PropertyRef Name="at_id" />
+            </Principal>
+            <Dependent Role="Asset_master">
+              <PropertyRef Name="am_atype_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asset_mas__am_ma__403A8C7D">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="Asset_master" Type="Self.Asset_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="vd_id" />
+            </Principal>
+            <Dependent Role="Asset_master">
+              <PropertyRef Name="am_make_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchase___pd_ty__3B75D760">
+          <End Role="Asset_type" Type="Self.Asset_type" Multiplicity="0..1" />
+          <End Role="Purchase_order" Type="Self.Purchase_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_type">
+              <PropertyRef Name="at_id" />
+            </Principal>
+            <Dependent Role="Purchase_order">
+              <PropertyRef Name="pd_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vendor__vd_atype__2E1BDC42">
+          <End Role="Asset_type" Type="Self.Asset_type" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_type">
+              <PropertyRef Name="at_id" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="vd_atype_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User_regis__l_id__267ABA7A">
+          <End Role="Login_tbl" Type="Self.Login_tbl" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="User_registration" Type="Self.User_registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login_tbl">
+              <PropertyRef Name="l_id" />
+            </Principal>
+            <Dependent Role="User_registration">
+              <PropertyRef Name="l_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Purchase___pd_ve__3C69FB99">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="Purchase_order" Type="Self.Purchase_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="vd_id" />
+            </Principal>
+            <Dependent Role="Purchase_order">
+              <PropertyRef Name="pd_vendor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AssetMVCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Asset_def" EntityType="Self.Asset_def" />
+          <EntitySet Name="Asset_master" EntityType="Self.Asset_master" />
+          <EntitySet Name="Asset_type" EntityType="Self.Asset_type" />
+          <EntitySet Name="Login_tbl" EntityType="Self.Login_tbl" />
+          <EntitySet Name="Purchase_order" EntityType="Self.Purchase_order" />
+          <EntitySet Name="status_tbl" EntityType="Self.status_tbl" />
+          <EntitySet Name="User_registration" EntityType="Self.User_registration" />
+          <EntitySet Name="Vendors" EntityType="Self.Vendor" />
+          <AssociationSet Name="FK__Asset_def__ad_ty__2B3F6F97" Association="Self.FK__Asset_def__ad_ty__2B3F6F97">
+            <End Role="Asset_type" EntitySet="Asset_type" />
+            <End Role="Asset_def" EntitySet="Asset_def" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asset_mas__am_ad__412EB0B6" Association="Self.FK__Asset_mas__am_ad__412EB0B6">
+            <End Role="Asset_def" EntitySet="Asset_def" />
+            <End Role="Asset_master" EntitySet="Asset_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchase___pd_ad__3A81B327" Association="Self.FK__Purchase___pd_ad__3A81B327">
+            <End Role="Asset_def" EntitySet="Asset_def" />
+            <End Role="Purchase_order" EntitySet="Purchase_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asset_mas__am_at__3F466844" Association="Self.FK__Asset_mas__am_at__3F466844">
+            <End Role="Asset_type" EntitySet="Asset_type" />
+            <End Role="Asset_master" EntitySet="Asset_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asset_mas__am_ma__403A8C7D" Association="Self.FK__Asset_mas__am_ma__403A8C7D">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Asset_master" EntitySet="Asset_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchase___pd_ty__3B75D760" Association="Self.FK__Purchase___pd_ty__3B75D760">
+            <End Role="Asset_type" EntitySet="Asset_type" />
+            <End Role="Purchase_order" EntitySet="Purchase_order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vendor__vd_atype__2E1BDC42" Association="Self.FK__Vendor__vd_atype__2E1BDC42">
+            <End Role="Asset_type" EntitySet="Asset_type" />
+            <End Role="Vendor" EntitySet="Vendors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User_regis__l_id__267ABA7A" Association="Self.FK__User_regis__l_id__267ABA7A">
+            <End Role="Login_tbl" EntitySet="Login_tbl" />
+            <End Role="User_registration" EntitySet="User_registration" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Purchase___pd_ve__3C69FB99" Association="Self.FK__Purchase___pd_ve__3C69FB99">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Purchase_order" EntitySet="Purchase_order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AssetMVCModelStoreContainer" CdmEntityContainer="AssetMVCEntities">
+          <EntitySetMapping Name="Asset_def">
+            <EntityTypeMapping TypeName="AssetMVCModel.Asset_def">
+              <MappingFragment StoreEntitySet="Asset_def">
+                <ScalarProperty Name="ad_id" ColumnName="ad_id" />
+                <ScalarProperty Name="ad_name" ColumnName="ad_name" />
+                <ScalarProperty Name="ad_type_id" ColumnName="ad_type_id" />
+                <ScalarProperty Name="ad_class" ColumnName="ad_class" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Asset_master">
+            <EntityTypeMapping TypeName="AssetMVCModel.Asset_master">
+              <MappingFragment StoreEntitySet="Asset_master">
+                <ScalarProperty Name="am_id" ColumnName="am_id" />
+                <ScalarProperty Name="am_atype_id" ColumnName="am_atype_id" />
+                <ScalarProperty Name="am_make_id" ColumnName="am_make_id" />
+                <ScalarProperty Name="am_ad_id" ColumnName="am_ad_id" />
+                <ScalarProperty Name="am_model" ColumnName="am_model" />
+                <ScalarProperty Name="am_snumber" ColumnName="am_snumber" />
+                <ScalarProperty Name="am_myyear" ColumnName="am_myyear" />
+                <ScalarProperty Name="am_pdate" ColumnName="am_pdate" />
+                <ScalarProperty Name="am_warranty" ColumnName="am_warranty" />
+                <ScalarProperty Name="am_from" ColumnName="am_from" />
+                <ScalarProperty Name="am_to" ColumnName="am_to" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Asset_type">
+            <EntityTypeMapping TypeName="AssetMVCModel.Asset_type">
+              <MappingFragment StoreEntitySet="Asset_type">
+                <ScalarProperty Name="at_id" ColumnName="at_id" />
+                <ScalarProperty Name="at_name" ColumnName="at_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Login_tbl">
+            <EntityTypeMapping TypeName="AssetMVCModel.Login_tbl">
+              <MappingFragment StoreEntitySet="Login_tbl">
+                <ScalarProperty Name="l_id" ColumnName="l_id" />
+                <ScalarProperty Name="u_name" ColumnName="u_name" />
+                <ScalarProperty Name="p_word" ColumnName="p_word" />
+                <ScalarProperty Name="u_type" ColumnName="u_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Purchase_order">
+            <EntityTypeMapping TypeName="AssetMVCModel.Purchase_order">
+              <MappingFragment StoreEntitySet="Purchase_order">
+                <ScalarProperty Name="pd_id" ColumnName="pd_id" />
+                <ScalarProperty Name="pd_order_no" ColumnName="pd_order_no" />
+                <ScalarProperty Name="pd_ad_id" ColumnName="pd_ad_id" />
+                <ScalarProperty Name="pd_type_id" ColumnName="pd_type_id" />
+                <ScalarProperty Name="pd_qty" ColumnName="pd_qty" />
+                <ScalarProperty Name="pd_vendor_id" ColumnName="pd_vendor_id" />
+                <ScalarProperty Name="pd_date" ColumnName="pd_date" />
+                <ScalarProperty Name="pd_ddate" ColumnName="pd_ddate" />
+                <ScalarProperty Name="pd_status" ColumnName="pd_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status_tbl">
+            <EntityTypeMapping TypeName="AssetMVCModel.status_tbl">
+              <MappingFragment StoreEntitySet="status_tbl">
+                <ScalarProperty Name="st_id" ColumnName="st_id" />
+                <ScalarProperty Name="st_name" ColumnName="st_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_registration">
+            <EntityTypeMapping TypeName="AssetMVCModel.User_registration">
+              <MappingFragment StoreEntitySet="User_registration">
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="f_name" ColumnName="f_name" />
+                <ScalarProperty Name="l_name" ColumnName="l_name" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="phno" ColumnName="phno" />
+                <ScalarProperty Name="l_id" ColumnName="l_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendors">
+            <EntityTypeMapping TypeName="AssetMVCModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="vd_id" ColumnName="vd_id" />
+                <ScalarProperty Name="vd_name" ColumnName="vd_name" />
+                <ScalarProperty Name="vd_type" ColumnName="vd_type" />
+                <ScalarProperty Name="vd_atype_id" ColumnName="vd_atype_id" />
+                <ScalarProperty Name="vd_from" ColumnName="vd_from" />
+                <ScalarProperty Name="vd_to" ColumnName="vd_to" />
+                <ScalarProperty Name="vd_addr" ColumnName="vd_addr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
